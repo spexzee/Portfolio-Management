@@ -23,7 +23,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { getSkills, addSkill, updateSkill, deleteSkill } from '@/lib/data';
 import type { Skill } from '@/lib/types';
-import { TableColumn } from 'react-data-table-component';
+import type { TableColumn } from 'react-data-table-component';
 import { Pencil, Trash2, PlusCircle, Activity, Database, Code, Server, Smartphone } from 'lucide-react'; // Example icons
 import { toast } from '@/hooks/use-toast';
 import {
@@ -336,10 +336,11 @@ export default function SkillsPage() {
         </div>
       ),
       ignoreRowClick: true,
-      allowOverflow: true,
+      // allowOverflow: true, // Removed to prevent React warning
       button: true,
       width: '120px',
     },
+   // eslint-disable-next-line react-hooks/exhaustive-deps
    ], [openEditDialog]); // Dependency array
 
 

@@ -18,7 +18,7 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { getProjects, addProject, updateProject, deleteProject } from '@/lib/data';
 import type { Project } from '@/lib/types';
-import { TableColumn } from 'react-data-table-component';
+import type { TableColumn } from 'react-data-table-component';
 import { Pencil, Trash2, PlusCircle, ExternalLink, Code } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import {
@@ -293,7 +293,7 @@ export default function ProjectsPage() {
         </div>
       ),
       ignoreRowClick: true,
-      allowOverflow: true,
+      // allowOverflow: true, // Removed to prevent React warning
       button: true,
     },
     {
@@ -324,10 +324,11 @@ export default function ProjectsPage() {
         </div>
       ),
       ignoreRowClick: true,
-      allowOverflow: true,
+      // allowOverflow: true, // Removed to prevent React warning
       button: true, // Indicates this cell contains buttons/actions
       width: '120px' // Fixed width for actions column
     },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   ], [openEditDialog]); // Dependency array ensures columns are memoized
 
 
