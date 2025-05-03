@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -176,7 +177,7 @@ export default function SkillsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingSkill, setEditingSkill] = useState<Skill | null>(null);
-  const [skillToDelete, setSkillToDelete] = useState<Skill | null>(null);
+  // Removed: const [skillToDelete, setSkillToDelete] = useState<Skill | null>(null);
 
   const fetchSkills = async () => {
     setIsLoading(true);
@@ -239,15 +240,14 @@ export default function SkillsPage() {
     }
   };
 
- const handleDeleteSkill = async () => {
-    if (!skillToDelete) return;
+ const handleDeleteSkill = async (skillId: string, skillName: string) => {
     try {
-      await deleteSkill(skillToDelete.id);
+      await deleteSkill(skillId);
        toast({
         title: "Success",
-        description: `Skill "${skillToDelete.name}" deleted successfully.`,
+        description: `Skill "${skillName}" deleted successfully.`,
       });
-      setSkillToDelete(null); // Close the confirmation dialog implicitly
+      // Removed: setSkillToDelete(null); // Close the confirmation dialog implicitly
       fetchSkills(); // Re-fetch skills
     } catch (error) {
       console.error('Failed to delete skill:', error);
@@ -322,17 +322,33 @@ export default function SkillsPage() {
           >
             <Pencil className="h-4 w-4" />
           </Button>
-           <AlertDialogTrigger asChild>
-               <Button
-                   variant="destructive"
-                   size="icon"
-                   className="h-8 w-8"
-                    onClick={() => setSkillToDelete(row)}
-                   aria-label={`Delete ${row.name}`}
-               >
-                   <Trash2 className="h-4 w-4" />
-               </Button>
-            </AlertDialogTrigger>
+          <AlertDialog>
+               <AlertDialogTrigger asChild>
+                   <Button
+                       variant="destructive"
+                       size="icon"
+                       className="h-8 w-8"
+                       aria-label={`Delete ${row.name}`}
+                   >
+                       <Trash2 className="h-4 w-4" />
+                   </Button>
+                </AlertDialogTrigger>
+                 <AlertDialogContent>
+                    <AlertDialogHeader>
+                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        This action cannot be undone. This will permanently delete the skill
+                        <span className="font-semibold"> "{row.name}"</span>.
+                    </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => handleDeleteSkill(row.id, row.name)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                        Delete
+                    </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </div>
       ),
       ignoreRowClick: true,
@@ -377,24 +393,10 @@ export default function SkillsPage() {
         filterPlaceholder="Search skills..."
       />
 
-      {/* Delete Confirmation Dialog */}
-      <AlertDialog open={!!skillToDelete} onOpenChange={(open) => !open && setSkillToDelete(null)}>
-            <AlertDialogContent>
-                <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete the skill
-                    <span className="font-semibold"> "{skillToDelete?.name}"</span>.
-                </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                <AlertDialogCancel onClick={() => setSkillToDelete(null)}>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleDeleteSkill} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                    Delete
-                </AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+      {/* Delete Confirmation Dialog is now part of the cell renderer */}
+
     </div>
   );
 }
+
+    
