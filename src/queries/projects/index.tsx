@@ -23,7 +23,7 @@ export const useGetProjects = () => {
   return useQuery({
     queryKey: ['projects'],
     queryFn: async () => {
-      const response = await useApi<null, ProjectsResponse>({ method: 'GET', url: '/api/project/projects' });
+      const response = await useApi<null, ProjectsResponse>({ method: 'GET', url: 'http://localhost:3000/api/project/projects' });
       return response as ProjectsResponse
     },
   });
