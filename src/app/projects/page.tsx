@@ -148,7 +148,7 @@ export default function ProjectsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
-  const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
+  // Removed: const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
 
   const fetchProjects = async () => {
     setIsLoading(true);
@@ -211,15 +211,14 @@ export default function ProjectsPage() {
     }
   };
 
- const handleDeleteProject = async () => {
-    if (!projectToDelete) return;
+ const handleDeleteProject = async (projectId: string, projectName: string) => {
     try {
-      await deleteProject(projectToDelete.id);
+      await deleteProject(projectId);
        toast({
         title: "Success",
-        description: `Project "${projectToDelete.name}" deleted successfully.`,
+        description: `Project "${projectName}" deleted successfully.`,
       });
-      setProjectToDelete(null); // Close the confirmation dialog implicitly
+      // Removed: setProjectToDelete(null); // Close the confirmation dialog implicitly
       fetchProjects(); // Re-fetch projects
     } catch (error) {
       console.error('Failed to delete project:', error);
@@ -293,7 +292,6 @@ export default function ProjectsPage() {
         </div>
       ),
       ignoreRowClick: true,
-      // button: true, // Removed to fix React warning
     },
     {
       name: 'Actions',
@@ -308,22 +306,37 @@ export default function ProjectsPage() {
           >
             <Pencil className="h-4 w-4" />
           </Button>
-          <AlertDialogTrigger asChild>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
                <Button
                    variant="destructive"
                    size="icon"
                    className="h-8 w-8"
-                    onClick={() => setProjectToDelete(row)} // Set the project to delete when trigger is clicked
                    aria-label={`Delete ${row.name}`}
                >
                    <Trash2 className="h-4 w-4" />
                </Button>
             </AlertDialogTrigger>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete the project
+                    <span className="font-semibold"> "{row.name}"</span>.
+                </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={() => handleDeleteProject(row.id, row.name)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                    Delete
+                </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
 
         </div>
       ),
       ignoreRowClick: true,
-      // button: true, // Removed to fix React warning
       width: '120px' // Fixed width for actions column
     },
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -364,25 +377,8 @@ export default function ProjectsPage() {
         filterPlaceholder="Search projects..."
       />
 
-       {/* Delete Confirmation Dialog */}
-        <AlertDialog open={!!projectToDelete} onOpenChange={(open) => !open && setProjectToDelete(null)}>
-             {/* No Trigger needed here as it's controlled by state */}
-            <AlertDialogContent>
-                <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete the project
-                    <span className="font-semibold"> "{projectToDelete?.name}"</span>.
-                </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                <AlertDialogCancel onClick={() => setProjectToDelete(null)}>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleDeleteProject} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                    Delete
-                </AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+       {/* Delete Confirmation Dialog is now part of the cell renderer */}
+
     </div>
   );
 }
