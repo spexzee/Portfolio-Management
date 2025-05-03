@@ -1,4 +1,4 @@
-import {useApi} from '../useApi';
+import useApi from '../useApi';
 import { useQuery } from '@tanstack/react-query';
 
 export interface Project {
@@ -22,9 +22,9 @@ export interface ProjectsResponse {
 export const useGetProjects = () => {
   return useQuery({
     queryKey: ['projects'],
-    queryFn: async () => {
-      const response = await useApi<null, ProjectsResponse>({ method: 'GET', url: 'http://localhost:3000/api/project/projects' });
-      return response as ProjectsResponse
+    queryFn: async (): Promise<Project[]> => {
+      const response = await useApi<ProjectsResponse>( 'GET','/api/project/projects');
+      return response.projects;
     },
   });
 };
