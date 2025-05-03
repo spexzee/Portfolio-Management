@@ -336,8 +336,7 @@ export default function SkillsPage() {
         </div>
       ),
       ignoreRowClick: true,
-      // allowOverflow: true, // Removed to prevent React warning
-      button: true,
+      // button: true, // Removed to fix React warning
       width: '120px',
     },
    // eslint-disable-next-line react-hooks/exhaustive-deps

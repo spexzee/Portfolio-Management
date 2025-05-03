@@ -293,8 +293,7 @@ export default function ProjectsPage() {
         </div>
       ),
       ignoreRowClick: true,
-      // allowOverflow: true, // Removed to prevent React warning
-      button: true,
+      // button: true, // Removed to fix React warning
     },
     {
       name: 'Actions',
@@ -324,8 +323,7 @@ export default function ProjectsPage() {
         </div>
       ),
       ignoreRowClick: true,
-      // allowOverflow: true, // Removed to prevent React warning
-      button: true, // Indicates this cell contains buttons/actions
+      // button: true, // Removed to fix React warning
       width: '120px' // Fixed width for actions column
     },
   // eslint-disable-next-line react-hooks/exhaustive-deps
