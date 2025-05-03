@@ -32,6 +32,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useGetProjects } from '@/queries/projects';
 
 type ProjectFormData = Omit<Project, 'id' | 'createdAt' | 'updatedAt' | 'imageUrl'> & { technologiesInput: string };
 
@@ -149,6 +150,9 @@ export default function ProjectsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   // Removed: const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
+
+  const {data} = useGetProjects()
+  console.log(data)
 
   const fetchProjects = async () => {
     setIsLoading(true);

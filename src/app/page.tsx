@@ -1,13 +1,10 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { getProjects, getSkills } from '@/lib/data';
 import { Briefcase, Wrench, Activity } from 'lucide-react';
 
 export default async function DashboardHome() {
   // Fetch initial counts (replace with real API calls)
-  const projects = await getProjects();
-  const skills = await getSkills();
-  const projectCount = projects.length;
-  const skillCount = skills.length;
+  const projectCount = 0;
+  const skillCount = 0;
 
   return (
     <div className="flex flex-col gap-6">
