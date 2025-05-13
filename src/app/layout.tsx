@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'PortfolioPro Admin',
+  title: 'Spexzee',
   description: 'Admin dashboard for managing portfolio projects and skills.',
 };
 
@@ -44,7 +44,7 @@ export default function RootLayout({
                <SidebarHeader className="p-4">
                   <Link href="/" className="flex items-center gap-2 font-semibold text-lg text-primary dark:text-primary">
                    <Briefcase className="h-6 w-6" />
-                   PortfolioPro
+                   Spexzee
                   </Link>
                </SidebarHeader>
               <SidebarContent className="flex-1">

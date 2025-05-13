@@ -1,13 +1,13 @@
 export interface Project {
-  id: string;
+  _id ?: string;
+  createdAt?: Date;
+  updateAt?: Date;
   name: string;
   description: string;
-  technologies: string[];
-  imageUrl?: string; // Optional image URL
-  liveUrl?: string; // Optional live demo URL
-  repoUrl?: string; // Optional repository URL
-  createdAt: Date;
-  updatedAt: Date;
+  technologies:string[];
+  image ?: string;
+  source_code_link: string;
+  demo_link: string;
 }
 
 export interface Skill {
